@@ -32,12 +32,20 @@ todos_schema = TodoSchema(many=True)
 def home():    
     return "<h1>Todo Flask API</h1>"
 
-# GET
+# GET all todos
 @app.route('/todos', methods=["GET"])
 def get_todos():    
     all_todos = Todo.query.all()
     result = todos_schema.dump(all_todos)
+
     return jsonify(result)
+
+# GET a single todo
+@app.route("/todo/<id>", methods=["GET"])
+def get_todo(id):
+    todo = Todo.query.get(id)
+
+    return todo_schema.jsonify(todo)
 
 # POST
 @app.route('/todo', methods=["POST"])
@@ -70,10 +78,9 @@ def update_todo(id):
 @app.route("/todo/<id>", methods=["DELETE"])
 def delete_todo(id):
     todo = Todo.query.get(id)
-    
+
     db.session.delete(todo)
     db.session.commit()
-
     return "Todo was successfully deleted"
 
 
