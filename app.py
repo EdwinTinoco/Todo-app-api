@@ -83,6 +83,8 @@ def delete_todo(id):
     db.session.commit()
     return "Todo was successfully deleted"
 
+    
+
 
 if __name__ == '__main__':
     app.run(debug=True)
